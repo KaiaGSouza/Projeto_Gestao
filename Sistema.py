@@ -6,7 +6,7 @@ import sqlite3
 
 # def
 # CRIAR BANCO DE DADOS
-def criar_banco():
+def criar_banco_dados():
     conexao = sqlite3.connect("produtos.db")
     terminal_sql = conexao.cursor()
     terminal_sql.execute("CREATE TABLE IF NOT EXISTS produtos(nome text, "
@@ -55,7 +55,7 @@ def ler_dados():
 
 
 # CADASTRAR PRODUTOS
-def cadastrar():
+def cadastrar_produtos():
     # Fechar Frames
     frame_editar.grid_forget()
     frame_saida.grid_forget()
@@ -78,7 +78,7 @@ def cadastrar():
 
 
 # EDITAR PRODUTOS
-def editar():
+def editar_produtos():
     # Fechar Frames
     frame_cadastrar.grid_forget()
     frame_entrada.grid_forget()
@@ -101,7 +101,7 @@ def editar():
 
 
 # APAGAR PRODUTOS DE EDITAR
-def apagar():
+def apagar_produtos():
     editar_nome.delete(0, "end")
     editar_preco.delete(0, "end")
     alterar_descricao.delete("1.0", "end")
@@ -121,7 +121,7 @@ def deletar_produtos(nome_produto):
 
 
 # SALVAR EDIÇÃO
-def salvar_edicao(nome_produto, preco_produto, descricao_produto):
+def salvar_edicao_produtos(nome_produto, preco_produto, descricao_produto):
     conexao = sqlite3.connect("produtos.db")
     terminal_sql = conexao.cursor()
     terminal_sql.execute(f"UPDATE produtos SET nome = '{nome_produto}', preco = '{preco_produto}', "
@@ -135,7 +135,7 @@ def salvar_edicao(nome_produto, preco_produto, descricao_produto):
 
 
 # SAIDA DE PRODUTOS
-def saida():
+def saida_produtos():
     frame_cadastrar.grid_forget()
     frame_entrada.grid_forget()
     frame_editar.grid_forget()
@@ -164,7 +164,7 @@ def produtos_selecionados_tabela():
 
 
 # ENTRADA DE PRODUTOS
-def entrada():
+def entrada_produtos():
     frame_cadastrar.grid_forget()
     frame_editar.grid_forget()
     frame_saida.grid_forget()
@@ -185,7 +185,7 @@ def entrada():
 
 
 # TABELA RELATORIO DE ESTOQUE DE PRODUTOS
-def relatorio_estoque():
+def relatorio_estoque_produtos():
     frame_cadastrar.grid_forget()
     frame_entrada.grid_forget()
     frame_saida.grid_forget()
@@ -206,7 +206,7 @@ def relatorio_estoque():
 
 
 # TABELA RELATORIO DE SAiDA DE PRODUTOS
-def relatorio_saida():
+def relatorio_saida_produtos():
     frame_cadastrar.grid_forget()
     frame_entrada.grid_forget()
     frame_saida.grid_forget()
@@ -221,7 +221,7 @@ def relatorio_saida():
 
 
 # TABELA RELATORIO DE ENTRADA DE PRODUTOS
-def relatorio_entrada():
+def relatorio_entrada_produtos():
     frame_cadastrar.grid_forget()
     frame_entrada.grid_forget()
     frame_saida.grid_forget()
@@ -236,7 +236,7 @@ def relatorio_entrada():
 
 
 # JANELA EXPORTAR DAS TABELAS DE ESTOQUE, SAIDA E ENTRADA
-def miniwindow():
+def miniwindow_exportar():
     ctk.set_appearance_mode("dark")
     ctk.set_default_color_theme("blue")
     mwindow = ctk.CTk()
@@ -307,7 +307,7 @@ def lista_produtos_telas():
         nome_entry = str(i[0])
         produtos = customtkinter.CTkCheckBox(mostrar_lista_editar, text=nome_entry, onvalue=nome_entry, offvalue="",
                                              variable=check_var,
-                                             command=lambda: seleciona_item(check_var) if check_var.get() else apagar())
+                                             command=lambda: seleciona_item(check_var) if check_var.get() else apagar_produtos())
         produtos.pack(pady=3, anchor="w")
 
     for i in mostrar_lista_saida.winfo_children():
@@ -316,7 +316,7 @@ def lista_produtos_telas():
         nome_entry = str(i[0])
         produtos = customtkinter.CTkCheckBox(mostrar_lista_saida, text=nome_entry, onvalue=nome_entry, offvalue="",
                                              variable=check_var,
-                                             command=lambda: seleciona_item(check_var) if check_var.get() else apagar())
+                                             command=lambda: seleciona_item(check_var) if check_var.get() else apagar_produtos())
         produtos.pack(pady=3, anchor="w")
 
     for i in mostrar_lista_entrada.winfo_children():
@@ -325,7 +325,7 @@ def lista_produtos_telas():
         nome_entry = str(i[0])
         produtos = customtkinter.CTkCheckBox(mostrar_lista_entrada, text=nome_entry, onvalue=nome_entry, offvalue="",
                                              variable=check_var,
-                                             command=lambda: seleciona_item(check_var) if check_var.get() else apagar())
+                                             command=lambda: seleciona_item(check_var) if check_var.get() else apagar_produtos())
         produtos.pack(pady=3, anchor="w")
 
 
@@ -350,7 +350,7 @@ def seleciona_item(nome_entry):
     alterar_descricao.insert("1.0", receber_dados_produto[0][3])
 
 
-criar_banco()
+criar_banco_dados()
 
 # Abertura da Tela
 ctk.set_appearance_mode("dark")
@@ -398,7 +398,7 @@ titulo = ctk.CTkLabel(frame_menu, text="Nome do\n Sistema", font=("Arial", 20, "
 titulo.pack(pady=30)
 
 # ______________________________________________Botão Cadastro__________________________________________________________
-button_cadastrar = ctk.CTkButton(frame_menu, text="Cadastrar", command=cadastrar, fg_color="red",
+button_cadastrar = ctk.CTkButton(frame_menu, text="Cadastrar", command=cadastrar_produtos, fg_color="red",
                                  border_color="#E65349", border_width=3, hover_color="#E6AD4E")
 button_cadastrar.pack()
 
@@ -434,7 +434,7 @@ salvar.grid(row=4, column=1, pady=5, sticky="e")
 # ______________________________________________________________________________________________________________________
 
 # ______________________________________________Botão Editar____________________________________________________________
-button_editar = ctk.CTkButton(frame_menu, text="Editar", command=editar, fg_color="red", border_color="#E65349",
+button_editar = ctk.CTkButton(frame_menu, text="Editar", command=editar_produtos, fg_color="red", border_color="#E65349",
                               border_width=3, hover_color="#E6AD4E")
 button_editar.pack(pady=10)
 
@@ -469,7 +469,7 @@ botao_cancelar = ctk.CTkButton(frame_editar, text="Cancelar", width=80, fg_color
 botao_cancelar.grid(row=5, column=2, padx=5, pady=0)
 
 botao_salvar = ctk.CTkButton(frame_editar, text="Salvar", width=80, fg_color="#E6AD4E", border_color="red",
-                             border_width=2, hover_color="red", command=lambda: salvar_edicao(editar_nome.get(),
+                             border_width=2, hover_color="red", command=lambda: salvar_edicao_produtos(editar_nome.get(),
                                                                                               editar_preco.get(),
                                                                                               alterar_descricao.get(0.0,
                                                                                                                     "end")))
@@ -479,7 +479,7 @@ botao_salvar.grid(row=5, column=3, padx=5, pady=0, sticky="e")
 
 
 # ______________________________________________Botão Saida_____________________________________________________________
-button_saida = ctk.CTkButton(frame_menu, text="Saida", command=saida, fg_color="red", border_color="#E65349",
+button_saida = ctk.CTkButton(frame_menu, text="Saida", command=saida_produtos, fg_color="red", border_color="#E65349",
                              border_width=3, hover_color="#E6AD4E")
 button_saida.pack()
 
@@ -523,7 +523,7 @@ salvar_alteracao = ctk.CTkButton(frame_saida, text="Salvar", width=80, fg_color=
 salvar_alteracao.grid(row=5, column=2)
 
 # ______________________________________________Botão Entrada___________________________________________________________
-button_entrada = ctk.CTkButton(frame_menu, text="Entrada", command=entrada, fg_color="red", border_color="#E65349",
+button_entrada = ctk.CTkButton(frame_menu, text="Entrada", command=entrada_produtos, fg_color="red", border_color="#E65349",
                                border_width=3, hover_color="#E6AD4E")
 button_entrada.pack(pady=10)
 
@@ -566,7 +566,7 @@ produtos_selecionados.grid(row=3, column=1, pady=20, padx=20, columnspan=2, rows
 
 
 # ______________________________________________Botão Relatorio_________________________________________________________
-button_relatorio = ctk.CTkButton(frame_menu, text="Relatorio", command=relatorio_estoque, fg_color="red",
+button_relatorio = ctk.CTkButton(frame_menu, text="Relatorio", command=relatorio_estoque_produtos, fg_color="red",
                                  border_color="#E65349", border_width=3, hover_color="#E6AD4E")
 button_relatorio.pack()
 # Funções Relatorio de Estoque LABEL ___________________________________________________________________________________
@@ -581,7 +581,7 @@ barra_pesquisa.grid(row=1, column=0, pady=5, padx=20)
 # BOTÃO_________________________________________________________________________________________________________________
 # EXPORTAR
 exportar_relatorio = ctk.CTkButton(frame_relatorio_estoque, text="Exportar", width=80, fg_color="purple",
-                                   border_color="purple", border_width=2, hover_color="#9E6EF0", command=miniwindow)
+                                   border_color="purple", border_width=2, hover_color="#9E6EF0", command=miniwindow_exportar)
 exportar_relatorio.grid(row=1, column=4, sticky="w")
 
 # ESTOQUE
@@ -593,13 +593,13 @@ estoque_botao_relatorio.grid(row=3, column=2, sticky="e")
 # SAIDA
 saida_botao_relatorio = ctk.CTkButton(frame_relatorio_estoque, text="Saida", width=80, fg_color="red",
                                       border_color="#E6AD4E",
-                                      border_width=2, hover_color="#E6AD4E", command=relatorio_saida)
+                                      border_width=2, hover_color="#E6AD4E", command=relatorio_saida_produtos)
 saida_botao_relatorio.grid(row=3, column=3)
 
 # ENTRADA
 entrada_botao_relatorio = ctk.CTkButton(frame_relatorio_estoque, text="Entrada", width=80, fg_color="red",
                                         border_color="#E6AD4E",
-                                        border_width=2, hover_color="#E6AD4E", command=relatorio_entrada)
+                                        border_width=2, hover_color="#E6AD4E", command=relatorio_entrada_produtos)
 entrada_botao_relatorio.grid(row=3, column=4, sticky="w")
 
 # TABELA________________________________________________________________________________________________________________
@@ -651,12 +651,12 @@ barra_pesquisa_Rsaida.grid(row=1, column=0, pady=5, padx=20)
 # BOTÃO_________________________________________________________________________________________________________________
 exportar_relatorio_saida = ctk.CTkButton(frame_relatorio_saida, text="Exportar", width=80, fg_color="purple",
                                          border_color="purple",
-                                         border_width=2, hover_color="#9E6EF0", command=miniwindow)
+                                         border_width=2, hover_color="#9E6EF0", command=miniwindow_exportar)
 exportar_relatorio_saida.grid(row=1, column=4, sticky="w")
 
 estoque_botao_relatorio = ctk.CTkButton(frame_relatorio_saida, text="Estoque", width=80, fg_color="red",
                                         border_color="#E6AD4E", border_width=2, hover_color="#E6AD4E",
-                                        command=relatorio_estoque)
+                                        command=relatorio_estoque_produtos)
 estoque_botao_relatorio.grid(row=3, column=2, sticky="e")
 
 saida_botao_relatorio = ctk.CTkButton(frame_relatorio_saida, text="Saida", width=80, fg_color="red",
@@ -666,7 +666,7 @@ saida_botao_relatorio.grid(row=3, column=3)
 
 entrada_botao_relatorio = ctk.CTkButton(frame_relatorio_saida, text="Entrada", width=80, fg_color="red",
                                         border_color="#E6AD4E", border_width=2, hover_color="#E6AD4E",
-                                        command=relatorio_entrada)
+                                        command=relatorio_entrada_produtos)
 entrada_botao_relatorio.grid(row=3, column=4, sticky="w")
 
 # TABELA________________________________________________________________________________________________________________
@@ -723,15 +723,15 @@ pesquisa_relatorio_entrada.grid(row=1, column=0, pady=5, padx=20)
 # BOTÃO
 exportar_relatorio_entrada = ctk.CTkButton(frame_relatorio_entrada, text="Exportar", width=80, fg_color="purple",
                                            border_color="purple", border_width=2, hover_color="#9E6EF0",
-                                           command=miniwindow)
+                                           command=miniwindow_exportar)
 exportar_relatorio_entrada.grid(row=1, column=4, sticky="w")
 estoque_button = ctk.CTkButton(frame_relatorio_entrada, text="Estoque", width=80, fg_color="red",
                                border_color="#E6AD4E",
-                               border_width=2, hover_color="#E6AD4E", command=relatorio_estoque)
+                               border_width=2, hover_color="#E6AD4E", command=relatorio_estoque_produtos)
 estoque_button.grid(row=3, column=2, sticky="e")
 
 saida_button = ctk.CTkButton(frame_relatorio_entrada, text="Saida", width=80, fg_color="red", border_color="#E6AD4E",
-                             border_width=2, hover_color="#E6AD4E", command=relatorio_saida)
+                             border_width=2, hover_color="#E6AD4E", command=relatorio_saida_produtos)
 saida_button.grid(row=3, column=3)
 
 entrada_button = ctk.CTkButton(frame_relatorio_entrada, text="Entrada", width=80, fg_color="red", border_color="red",
