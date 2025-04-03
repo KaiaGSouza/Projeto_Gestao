@@ -4,6 +4,11 @@ import customtkinter as ctk
 import sqlite3
 
 
+# VETORES
+vetor_P=[]
+vetor_Q=[]
+
+
 # def
 # CRIAR BANCO DE DADOS
 def criar_banco_dados():
@@ -156,11 +161,17 @@ def saida_produtos():
 
 
 # PRODUTOS SELECIONADOS NA TABELA SAIDA E ENTRADA
-def produtos_selecionados_tabela():
-    conexao = sqlite3.connect("produtos.db")
-    terminal_sql = conexao.cursor()
-    terminal_sql.execute("SELECT nome FROM produtos")
-    receber_todos_dados = terminal_sql.fetchall()
+def lista_selecionados(nome_entry):
+    global valor_checkbox_Saida
+    valor_checkbox_Saida = nome_entry.get().strip("(),'\"")
+
+
+def botao_lista_selecionados():
+    checkbox_selecionada= ctk.CTkLabel(produtos_selecionado, text=f"{valor_checkbox_Saida:<20} {qtd_retirar_itens.get()}", font=("Courier", 14))
+    checkbox_selecionada.pack(pady=3, padx=3, anchor="w")
+    vetor_P.append(valor_checkbox_Saida)
+    vetor_Q.append(qtd_retirar_itens.get())
+    print(vetor_P, vetor_Q)
 
 
 # ENTRADA DE PRODUTOS
@@ -295,6 +306,7 @@ def miniwindow_exportar():
 
 # PRODUTOS EM CADA TABELA LISTADOS
 def lista_produtos_telas():
+    global produtos
     conexao = sqlite3.connect("produtos.db")
     terminal_sql = conexao.cursor()
     terminal_sql.execute("SELECT nome FROM produtos")
@@ -312,11 +324,12 @@ def lista_produtos_telas():
 
     for i in mostrar_lista_saida.winfo_children():
         i.destroy()
+
     for i in receber_todos_dados:
         nome_entry = str(i[0])
         produtos = customtkinter.CTkCheckBox(mostrar_lista_saida, text=nome_entry, onvalue=nome_entry, offvalue="",
                                              variable=check_var,
-                                             command=lambda: seleciona_item(check_var) if check_var.get() else apagar_produtos())
+                                             command=lambda: lista_selecionados(check_var) if check_var.get() else apagar_produtos())
         produtos.pack(pady=3, anchor="w")
 
     for i in mostrar_lista_entrada.winfo_children():
@@ -325,7 +338,7 @@ def lista_produtos_telas():
         nome_entry = str(i[0])
         produtos = customtkinter.CTkCheckBox(mostrar_lista_entrada, text=nome_entry, onvalue=nome_entry, offvalue="",
                                              variable=check_var,
-                                             command=lambda: seleciona_item(check_var) if check_var.get() else apagar_produtos())
+                                             command=lambda: lista_selecionados(check_var) if check_var.get() else apagar_produtos())
         produtos.pack(pady=3, anchor="w")
 
 
@@ -494,8 +507,8 @@ quantidade_produtos.grid(row=1, column=1, pady=0, padx=0, columnspan=2)
 pesquisar_produto = ctk.CTkEntry(frame_saida, placeholder_text="pesquisar", border_color="red")
 pesquisar_produto.grid(row=2, column=0, pady=0, padx=0)
 
-retirada_item = ctk.CTkEntry(frame_saida, placeholder_text="Quantidade", width=90, border_color="red")
-retirada_item.grid(row=2, column=1, pady=0, padx=0)
+qtd_retirar_itens = ctk.CTkEntry(frame_saida, placeholder_text="Quantidade", width=90, border_color="red")
+qtd_retirar_itens.grid(row=2, column=1, pady=0, padx=0)
 
 # TABELA1_______________________________________________________________________________________________________________
 mostrar_lista_saida = ctk.CTkScrollableFrame(frame_saida, fg_color="black", border_color="red", border_width=2)
@@ -509,7 +522,7 @@ produtos_selecionado.grid(row=3, column=1, pady=20, padx=20, columnspan=2, rowsp
 
 # BOTÂO_________________________________________________________________________________________________________________
 retirar_itens = ctk.CTkButton(frame_saida, text="Adicionar Item", fg_color="#E6AD4E", border_color="red",
-                              border_width=2, hover_color="red")
+                              border_width=2, hover_color="red", command= botao_lista_selecionados)
 retirar_itens.grid(row=2, column=2)
 
 cancelar_alteracao = ctk.CTkButton(frame_saida, text="Cancelar", fg_color="red", width=80, border_color="#E6AD4E",
